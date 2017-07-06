@@ -1,3 +1,7 @@
+//TODO: Dit and DAh sounds to "raw" folder
+//TODO: Simple Translator and player UI with Card like Look (See Google Translate for Ideas)
+
+
 package com.neoskeeter.ditdah;
 
 import android.content.res.ColorStateList;
@@ -18,10 +22,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mPlayPauseButton = (FloatingActionButton) findViewById(R.id.fab_playpause);
+        mPlayPauseButton = findViewById(R.id.fab_playpause);
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
