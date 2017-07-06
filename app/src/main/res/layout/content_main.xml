@@ -30,14 +30,17 @@
     tools:showIn="@layout/activity_main">
 
     <EditText
+        android:id="@+id/et_userTranslatorInput"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:hint="@string/translator_hint"
         android:inputType="text"
-        android:layout_margin="12dp"/>
+        android:layout_margin="12dp"
+        android:shadowColor="#FFFFFF"/>
     <TextView
+        android:id="@+id/tv_translatedText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="12dp"
         android:layout_weight="1"/>
 </LinearLayout>

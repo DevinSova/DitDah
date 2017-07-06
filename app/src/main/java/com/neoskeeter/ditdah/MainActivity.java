@@ -9,14 +9,22 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.neoskeeter.ditdah.Utilities.Translator;
 
 public class MainActivity extends AppCompatActivity {
 
     //Widgets
     private FloatingActionButton mPlayPauseButton;
+    private EditText mUserTranslatorInput;
+    private TextView mTranslatedText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +43,32 @@ public class MainActivity extends AppCompatActivity {
                 //        .setAction("Action", null).show();
             }
         });
+
+        /*
+            Automated Translator Portion.
+         */
+        mTranslatedText = findViewById(R.id.tv_translatedText);
+
+        mUserTranslatorInput = findViewById(R.id.et_userTranslatorInput);
+        mUserTranslatorInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            //"before" is old length. "start" is where it started to change. "count" is how many characters after start.
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                mTranslatedText.setText(Translator.stringToMorse(charSequence.toString()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -58,4 +91,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
