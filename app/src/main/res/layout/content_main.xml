@@ -25,6 +25,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:orientation="vertical"
     tools:context="com.neoskeeter.ditdah.MainActivity"
     tools:showIn="@layout/activity_main">
@@ -34,15 +35,17 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:hint="@string/translator_hint"
-        android:inputType="text"
-        android:layout_margin="2dp"
-        android:background="@color/colorAccent"/>
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="10"
+        android:scrollHorizontally="false" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
     <TextView
         android:id="@+id/tv_translatedText"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="2dp"
         android:layout_weight="1"
-        android:textSize="24sp"
-        android:background="@color/colorPrimaryDark"/>
+        android:textSize="24sp" />
 </LinearLayout>
