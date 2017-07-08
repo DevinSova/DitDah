@@ -34,11 +34,11 @@
         android:id="@+id/et_userTranslatorInput"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:gravity="start|top"
+        android:textSize="16sp"
         android:hint="@string/translator_hint"
         android:inputType="textCapSentences|textMultiLine"
-        android:maxLines="10"
-        android:scrollHorizontally="false"
-        android:gravity="top|start"/>
+        android:scrollHorizontally="false" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
