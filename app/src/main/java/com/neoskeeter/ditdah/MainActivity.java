@@ -23,6 +23,8 @@ import com.neoskeeter.ditdah.Utilities.Translator;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     //Variables & Tasks
     boolean morseCodePlaying = false;
     MorseCodePlayerTask morseCodePlayerTask;
