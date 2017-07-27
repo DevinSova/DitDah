@@ -1,6 +1,3 @@
-//TODO: Simple Translator and player UI with Card like Look (See Google Translate for Ideas)
-
-
 package com.neoskeeter.ditdah;
 
 import android.content.res.ColorStateList;
@@ -13,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,11 +27,11 @@ public class MainActivity extends AppCompatActivity {
     boolean morseCodePlaying = false;
     MorseCodePlayerTask morseCodePlayerTask;
 
-    //Tones
-    int vMorseBeepTone = ToneGenerator.TONE_SUP_RADIO_ACK;
-    int vDitDuration = 50;
-    int vDahDuration = 200;
-    int vMorseBeepToneVolume = 500;
+    //Tones (Will be moved to prefrences later)
+    final int MORSE_BEEP_TONE = ToneGenerator.TONE_SUP_RADIO_ACK;
+    final int MORSE_BEEP_VOLUME = 500;
+    final int DIT_BEEP_DURATION = 50;
+    final int DAH_BEEP_DURATION = 200;
 
     //Widgets
     private FloatingActionButton mPlayPauseButton;
@@ -51,16 +49,10 @@ public class MainActivity extends AppCompatActivity {
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!morseCodePlaying) {
-                    morseCodePlaying = true;
-                    mPlayPauseButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-                    mPlayPauseButton.setImageResource(android.R.drawable.ic_media_pause);
-                    morseCodePlayerTask = new MorseCodePlayerTask();
-                    morseCodePlayerTask.execute("");
-                }
-                else {
-                    morseCodePlayerTask.cancel(true);
-                }
+                if(!morseCodePlaying)
+                    startPlayingMorse();
+                else
+                    stopPlayingMorse();
             }
         });
 
@@ -73,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         mUserTranslatorInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                //Not used
             }
 
             //"before" is old length. "start" is where it started to change. "count" is how many characters after start.
@@ -84,11 +76,22 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                //Not used
             }
         });
+        /*
+            End of Autmated Translator Portion.
+        */
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(morseCodePlaying)
+        {
+            stopPlayingMorse();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,12 +106,10 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -116,26 +117,76 @@ public class MainActivity extends AppCompatActivity {
     {
         @Override
         protected Boolean doInBackground(String... strings) {
-            ToneGenerator toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, vMorseBeepToneVolume);
-            toneGenerator.startTone(vMorseBeepTone, vDitDuration);
-            toneGenerator.startTone(vMorseBeepTone, vDahDuration);
+            ToneGenerator toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, MORSE_BEEP_VOLUME);
+            String morseCode = strings[0];
+            for(int i = 0; i < morseCode.length(); i++)
+            {
+                //Checks if the task was canceled
+                if(isCancelled())
+                    break;
+
+                if(morseCode.charAt(i) == '.') {
+                    toneGenerator.startTone(MORSE_BEEP_TONE, DIT_BEEP_DURATION);
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        onCancelled();
+                        Log.d(TAG, e.getMessage());
+                    }
+                }
+                else if(morseCode.charAt(i) == '-') {
+                    toneGenerator.startTone(MORSE_BEEP_TONE, DAH_BEEP_DURATION);
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        onCancelled();
+                        Log.d(TAG, e.getMessage());
+                    }
+                }
+                else if(morseCode.charAt(i) == ' ')
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        onCancelled();
+                        Log.d(TAG, e.getMessage());
+                    }
+                else if(morseCode.charAt(i) == '|')
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        onCancelled();
+                        Log.d(TAG, e.getMessage());
+                    }
+            }
             //Returning True means it finished the whole morse message
             return true;
         }
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            mPlayPauseButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
-            mPlayPauseButton.setImageResource(android.R.drawable.ic_media_play);
-            morseCodePlaying = false;
+            stopPlayingMorse();
         }
 
         @Override
         protected void onCancelled() {
-            mPlayPauseButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
-            mPlayPauseButton.setImageResource(android.R.drawable.ic_media_play);
-            morseCodePlaying = false;
+            stopPlayingMorse();
         }
     }
+    //Helper Methods
+    protected void stopPlayingMorse()
+    {
+        mPlayPauseButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+        mPlayPauseButton.setImageResource(android.R.drawable.ic_media_play);
+        morseCodePlayerTask.cancel(true);
+        morseCodePlaying = false;
+    }
 
+    protected void startPlayingMorse()
+    {
+        mPlayPauseButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+        mPlayPauseButton.setImageResource(android.R.drawable.ic_media_pause);
+        morseCodePlayerTask = new MorseCodePlayerTask();
+        morseCodePlayerTask.execute(mTranslatedText.getText().toString());
+        morseCodePlaying = true;
+    }
 }

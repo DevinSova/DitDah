@@ -43,6 +43,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
         android:background="@android:color/darker_gray"/>
     <TextView
         android:id="@+id/tv_translatedText"

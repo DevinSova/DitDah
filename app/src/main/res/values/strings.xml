@@ -2,4 +2,6 @@
     <string name="app_name">DitDah</string>
     <string name="action_settings">Settings</string>
     <string name="translator_hint">Translate...</string>
+    <string name="nav_translator">Translator</string>
+    <string name="nav_savedcodes">Saved Codes</string>
 </resources>
