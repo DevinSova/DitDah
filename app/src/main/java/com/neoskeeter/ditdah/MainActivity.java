@@ -1,10 +1,14 @@
 package com.neoskeeter.ditdah;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -27,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     boolean morseCodePlaying = false;
     MorseCodePlayerTask morseCodePlayerTask;
 
-    //Tones (Will be moved to prefrences later)
+    //Tones
     final int MORSE_BEEP_TONE = ToneGenerator.TONE_SUP_RADIO_ACK;
     final int MORSE_BEEP_VOLUME = 500;
     final int DIT_BEEP_DURATION = 50;
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         mPlayPauseButton = findViewById(R.id.fab_playpause);
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent settingsActivityIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsActivityIntent);
             return true;
         }
         return super.onOptionsItemSelected(item);

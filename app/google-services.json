@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "745163653968",
+    "firebase_url": "https://ditdah-e07cf.firebaseio.com",
+    "project_id": "ditdah-e07cf",
+    "storage_bucket": "ditdah-e07cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745163653968:android:1da8c4b66ada6892",
+        "android_client_info": {
+          "package_name": "com.neoskeeter.ditdah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "745163653968-e4up4ifrgesv7nkh8q7jrm5do1vupu0l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.neoskeeter.ditdah",
+            "certificate_hash": "17898e1131d6f849efa9ed02c5d13dadc33934a5"
+          }
+        },
+        {
+          "client_id": "745163653968-v0kk4hd1iabqd64pr660jnkd8t2v7i8i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOSaQJ4lQYEstnL7qOQ0uyv3KdbC-mV3o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "745163653968-v0kk4hd1iabqd64pr660jnkd8t2v7i8i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

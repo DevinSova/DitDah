@@ -1,7 +1,18 @@
 <resources>
+    <!-- App -->
     <string name="app_name">DitDah</string>
+
+    <!-- Menu Navigation -->
     <string name="action_settings">Settings</string>
-    <string name="translator_hint">Translate...</string>
+
+    <!-- Bottom Navigation -->
     <string name="nav_translator">Translator</string>
     <string name="nav_savedcodes">Saved Codes</string>
+
+    <!-- MainActivity Translator -->
+    <string name="translator_hint">Translate...</string>
+
+    <!-- Preferences -->
+    <string name="pref_catagory_general_label">General</string>
+    <string name="pref_catagory_translator_label">Translator</string>
 </resources>

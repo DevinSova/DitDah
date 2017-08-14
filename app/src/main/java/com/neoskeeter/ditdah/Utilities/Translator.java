@@ -2,8 +2,8 @@ package com.neoskeeter.ditdah.Utilities;
 
 public class Translator {
 
-    private final static char[] LETTERS = {'a' , 'b'   , 'c'   , 'd'  , 'e', 'f'   , 'g'  , 'h'   , 'i' , 'j'   , 'k'  , 'l'   , 'm' , 'n' , 'o'  , 'p'   , 'q'   , 'r'  , 's'  , 't', 'u'  , 'v'   , 'w'  , 'x'   , 'y'   , 'z', ' '};
-    private static String[] MORSE = {".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..", "|"};
+    private final static char[] LETTERS = {'a' , 'b'   , 'c'   , 'd'  , 'e', 'f'   , 'g'  , 'h'   , 'i' , 'j'   , 'k'  , 'l'   , 'm' , 'n' , 'o'  , 'p'   , 'q'   , 'r'  , 's'  , 't', 'u'  , 'v'   , 'w'  , 'x'   , 'y'   , 'z'   , ' ', '\n'};
+    private static String[] MORSE =       {".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..", "|", "\n"};
 
     public static String stringToMorse(String s)
     {
