@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
+//TODO LATER: Make AsyncTask Static or might cause leaks...
 import com.neoskeeter.ditdah.Utilities.Translator;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
     MorseCodePlayerTask morseCodePlayerTask;
 
     //Tones
-    final int MORSE_BEEP_TONE = ToneGenerator.TONE_SUP_RADIO_ACK;
-    final int MORSE_BEEP_VOLUME = 500;
-    final int DIT_BEEP_DURATION = 50;
-    final int DAH_BEEP_DURATION = 200;
+    final static int MORSE_BEEP_TONE = ToneGenerator.TONE_SUP_RADIO_ACK;
+    final static int MORSE_BEEP_VOLUME = 500;
+    final static int DIT_BEEP_DURATION = 50;
+    final static int DAH_BEEP_DURATION = 200;
 
     //Widgets
     private FloatingActionButton mPlayPauseButton;

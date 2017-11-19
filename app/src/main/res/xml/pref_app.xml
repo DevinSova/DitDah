@@ -2,8 +2,16 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/pref_catagory_general_label">
+        <!--ListPreference -->
+
+    </PreferenceCategory>
+        <!-- Test Preferences
         <CheckBoxPreference
             android:defaultValue="true"
+            android:title="test checkbox" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
             android:title="test switch" />
-    </PreferenceCategory>
+            -->
+
 </PreferenceScreen>
