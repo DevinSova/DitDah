@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="pref_play_option_labels">
-        <item></item>
-        <item></item>
-        <item></item>
+        <item>@string/pref_play_option_sound_label</item>
+        <item>@string/pref_play_option_vibrate_label</item>
+        <item>@string/pref_play_option_flash_label</item>
+    </array>
+    <array name="pref_play_option_values">
+        <item>@string/pref_play_option_sound_value</item>
+        <item>@string/pref_play_option_vibrate_value</item>
+        <item>@string/pref_play_option_flash_value</item>
     </array>
 </resources>
