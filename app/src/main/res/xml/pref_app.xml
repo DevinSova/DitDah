@@ -3,7 +3,12 @@
     <PreferenceCategory
         android:title="@string/pref_catagory_general_label">
         <!--ListPreference -->
-
+        <ListPreference
+            android:defaultValue="@string/pref_play_option_sound_value"
+            android:entries="@array/pref_play_option_labels"
+            android:entryValues="@array/pref_play_option_values"
+            android:key="@string/pref_play_option_key"
+            android:title="@string/pref_play_option_title" />
     </PreferenceCategory>
         <!-- Test Preferences
         <CheckBoxPreference

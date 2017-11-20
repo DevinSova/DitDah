@@ -17,6 +17,9 @@
     <string name="pref_catagory_translator_label">Translator</string>
 
     <!-- Play Option Labels and Values -->
+    <string name="pref_play_option_key">playoption</string>
+    <string name="pref_play_option_title">Play Option</string>
+
     <string name="pref_play_option_sound_label">Sound</string>
     <string name="pref_play_option_vibrate_label">Vibrate</string>
     <string name="pref_play_option_flash_label">Flash</string>
