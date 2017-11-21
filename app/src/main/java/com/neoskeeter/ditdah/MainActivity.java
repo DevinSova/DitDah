@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /*
-            Automated Translator Portion.
+         * Automated Translator Portion.
          */
         mTranslatedText = findViewById(R.id.tv_translatedText);
 
@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         /*
-            End of Autmated Translator Portion.
-        */
+         * End of Autmated Translator Portion.
+         */
     }
 
     @Override
