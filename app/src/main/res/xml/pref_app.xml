@@ -2,6 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/pref_catagory_general_label">
+
         <!--ListPreference -->
         <ListPreference
             android:defaultValue="@string/pref_play_option_sound_value"
@@ -9,6 +10,17 @@
             android:entryValues="@array/pref_play_option_values"
             android:key="@string/pref_play_option_key"
             android:title="@string/pref_play_option_title" />
+
+        <EditTextPreference
+            android:defaultValue="@string/pref_dit_representation_default"
+            android:key="@string/pref_dit_representation_key"
+            android:title="@string/pref_dit_representation_label"/>
+
+        <EditTextPreference
+            android:defaultValue="@string/pref_dah_representation_default"
+            android:key="@string/pref_dah_representation_key"
+            android:title="@string/pref_dah_representation_label" />
+
     </PreferenceCategory>
         <!-- Test Preferences
         <CheckBoxPreference

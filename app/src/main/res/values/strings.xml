@@ -28,4 +28,14 @@
     <string name="pref_play_option_vibrate_value">vibrate</string>
     <string name="pref_play_option_flash_value">flash</string>
 
+    <!-- Dit Default Representation -->
+    <string name="pref_dit_representation_default">.</string>
+    <string name="pref_dit_representation_label">Dit Representation</string>
+    <string name="pref_dit_representation_key">dit</string>
+
+    <!-- Dah Default Representation -->
+    <string name="pref_dah_representation_default">-</string>
+    <string name="pref_dah_representation_label">Dah Representation</string>
+    <string name="pref_dah_representation_key">dah</string>
+
 </resources>
