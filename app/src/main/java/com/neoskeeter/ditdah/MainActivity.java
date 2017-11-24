@@ -23,13 +23,15 @@ import android.widget.TextView;
 //TODO LATER: Make AsyncTask Static or might cause leaks...
 import com.neoskeeter.ditdah.Utilities.Translator;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     //Variables & Tasks
     boolean morseCodePlaying = false;
     MorseCodePlayerTask morseCodePlayerTask;
+    private char Dit;
+    private char Dah;
 
     //Tones
     final static int MORSE_BEEP_TONE = ToneGenerator.TONE_SUP_RADIO_ACK;
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        setupSharedPreferences();
 
         mPlayPauseButton = findViewById(R.id.fab_playpause);
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             //"before" is old length. "start" is where it started to change. "count" is how many characters after start.
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                mTranslatedText.setText(Translator.stringToMorse(charSequence.toString()));
+                mTranslatedText.setText(Translator.stringToMorse(charSequence.toString(), Dit, Dah));
             }
 
             @Override
@@ -122,6 +124,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupSharedPreferences() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Dit = sharedPreferences.getString(getString(R.string.pref_dit_representation_key), ".").charAt(0);
+        Dah = sharedPreferences.getString(getString(R.string.pref_dah_representation_key), "-").charAt(0);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals(getString(R.string.pref_dit_representation_key)))
+            Dit = sharedPreferences.getString(getString(R.string.pref_dit_representation_key), ".").charAt(0);
+        else if(key.equals(getString(R.string.pref_dah_representation_key)))
+            Dah = sharedPreferences.getString(getString(R.string.pref_dah_representation_key), "-").charAt(0);
     }
 
     public class MorseCodePlayerTask extends AsyncTask<String, Void, Boolean>
