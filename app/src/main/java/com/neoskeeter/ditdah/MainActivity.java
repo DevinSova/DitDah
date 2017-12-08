@@ -20,7 +20,8 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
-//TODO LATER: Make AsyncTask Static or might cause leaks...
+//TODO: Make AsyncTask Static or might cause leaks...
+//TODO: Card for input and output https://developer.android.com/reference/android/support/v7/widget/CardView.html
 import com.neoskeeter.ditdah.Utilities.Translator;
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
