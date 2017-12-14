@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.neoskeeter.ditdah.MainActivity"
-    android:background="@android:color/widget_edittext_dark">
+    android:background="@color/colorBackground">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

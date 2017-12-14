@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--App Primary and Accent Colors-->
     <color name="colorPrimary">#f44336</color>
     <color name="colorPrimaryDark">#db3124</color>
     <color name="colorAccent">#00e676</color>
+
+    <!--Layout Background Color-->
+    <color name="colorBackground">#E0E0E0</color>
+    <!--Card View Color-->
+    <color name="colorCardView">@color/cardview_light_background</color>
+
+    <!--Play Button Colors-->
+    <color name="colorPlayButtonPlay">#00e676</color>
+    <color name="colorPlayButtonPause">#f44336</color>
 </resources>

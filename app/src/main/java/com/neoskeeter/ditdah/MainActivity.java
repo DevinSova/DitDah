@@ -19,9 +19,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.os.Vibrator;
 
 //TODO: Make AsyncTask Static or might cause leaks...
-//TODO: Card for input and output https://developer.android.com/reference/android/support/v7/widget/CardView.html
 import com.neoskeeter.ditdah.Utilities.Translator;
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -33,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     MorseCodePlayerTask morseCodePlayerTask;
     private char Dit;
     private char Dah;
+    private boolean toneEnabled;
+    private boolean vibrateEnabled;
+    private boolean flashEnabled;
 
     //Tones
     final static int MORSE_BEEP_TONE = ToneGenerator.TONE_SUP_RADIO_ACK;
@@ -127,6 +130,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Dit = sharedPreferences.getString(getString(R.string.pref_dit_representation_key), ".").charAt(0);
         Dah = sharedPreferences.getString(getString(R.string.pref_dah_representation_key), "-").charAt(0);
+        toneEnabled = true;
+        vibrateEnabled = true;
+        flashEnabled = true;
     }
 
     @Override
@@ -199,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     //Helper Methods
     protected void stopPlayingMorse()
     {
-        mPlayPauseButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+        mPlayPauseButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPlayButtonPlay)));
         mPlayPauseButton.setImageResource(android.R.drawable.ic_media_play);
         morseCodePlayerTask.cancel(true);
         morseCodePlaying = false;
@@ -207,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     protected void startPlayingMorse()
     {
-        mPlayPauseButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+        mPlayPauseButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPlayButtonPause)));
         mPlayPauseButton.setImageResource(android.R.drawable.ic_media_pause);
         morseCodePlayerTask = new MorseCodePlayerTask();
         morseCodePlayerTask.execute(mTranslatedText.getText().toString());
