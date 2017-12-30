@@ -2,6 +2,10 @@
     <!-- App -->
     <string name="app_name">DitDah</string>
 
+    <!-- Permission -->
+    <string name="perm_flash">Flashlight Permission</string>
+    <string name="perm_flash_desc">DitDah needs to access the flashlight in order to flash morse code messages.</string>
+
     <!-- Menu Navigation -->
     <string name="action_settings">Settings</string>
 
@@ -27,6 +31,9 @@
     <string name="pref_play_option_sound_value">sound</string>
     <string name="pref_play_option_vibrate_value">vibrate</string>
     <string name="pref_play_option_flash_value">flash</string>
+
+    <!-- Error Messages -->
+    <string name="err_empty_input">Please enter a message to translate</string>
 
     <!-- Dit Default Representation -->
     <string name="pref_dit_representation_default">.</string>

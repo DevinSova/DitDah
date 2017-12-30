@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //TODO: Make AsyncTask Static or might cause leaks...
 import com.neoskeeter.ditdah.Utilities.Translator;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     final static int MORSE_BEEP_VOLUME = 500;
     final static int DIT_BEEP_DURATION = 50;
     final static int DAH_BEEP_DURATION = 200;
+
 
     //Widgets
     private FloatingActionButton mPlayPauseButton;
@@ -226,6 +228,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     protected void startPlayingMorse()
     {
+        if(mUserTranslatorInput.getText().toString().isEmpty()) {
+            Toast emptyError = Toast.makeText(this, getString(R.string.err_empty_input), Toast.LENGTH_SHORT);
+            emptyError.show();
+            return;
+        }
         mPlayPauseButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPlayButtonPause)));
         mPlayPauseButton.setImageResource(android.R.drawable.ic_media_pause);
         morseCodePlayerTask = new MorseCodePlayerTask();
