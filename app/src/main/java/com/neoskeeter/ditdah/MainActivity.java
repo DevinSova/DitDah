@@ -1,5 +1,6 @@
 package com.neoskeeter.ditdah;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -7,6 +8,7 @@ import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +21,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.os.Vibrator;
 
 //TODO: Make AsyncTask Static or might cause leaks...
 import com.neoskeeter.ditdah.Utilities.Translator;
@@ -33,9 +34,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     MorseCodePlayerTask morseCodePlayerTask;
     private char Dit;
     private char Dah;
-    private boolean toneEnabled;
+    private boolean soundEnabled;
     private boolean vibrateEnabled;
     private boolean flashEnabled;
+    private
 
     //Tones
     final static int MORSE_BEEP_TONE = ToneGenerator.TONE_SUP_RADIO_ACK;
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Dit = sharedPreferences.getString(getString(R.string.pref_dit_representation_key), ".").charAt(0);
         Dah = sharedPreferences.getString(getString(R.string.pref_dah_representation_key), "-").charAt(0);
-        toneEnabled = true;
+        soundEnabled = true;
         vibrateEnabled = true;
         flashEnabled = true;
     }
@@ -145,9 +147,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     public class MorseCodePlayerTask extends AsyncTask<String, Void, Boolean>
     {
+        private ToneGenerator toneGenerator;
+        private Vibrator vibrator;
         @Override
         protected Boolean doInBackground(String... strings) {
-            ToneGenerator toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, MORSE_BEEP_VOLUME);
+            toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, MORSE_BEEP_VOLUME);
+            vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             String morseCode = strings[0];
             for(int i = 0; i < morseCode.length(); i++)
             {
@@ -156,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                     break;
 
                 if(morseCode.charAt(i) == '.') {
-                    toneGenerator.startTone(MORSE_BEEP_TONE, DIT_BEEP_DURATION);
+                    soundVibrateFlash(DIT_BEEP_DURATION);
                     try {
                         Thread.sleep(200);
                     } catch (InterruptedException e) {
@@ -165,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                     }
                 }
                 else if(morseCode.charAt(i) == '-') {
-                    toneGenerator.startTone(MORSE_BEEP_TONE, DAH_BEEP_DURATION);
+                    soundVibrateFlash(DAH_BEEP_DURATION);
                     try {
                         Thread.sleep(300);
                     } catch (InterruptedException e) {
@@ -190,6 +195,14 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
             //Returning True means it finished the whole morse message
             return true;
+        }
+        private void soundVibrateFlash(int duration) {
+            if(flashEnabled)
+
+            if(vibrateEnabled)
+                vibrator.vibrate(duration);
+            if(soundEnabled)
+                toneGenerator.startTone(MORSE_BEEP_TONE, duration);
         }
 
         @Override
