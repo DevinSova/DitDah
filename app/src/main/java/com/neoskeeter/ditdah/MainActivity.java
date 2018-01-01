@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.hardware.Camera;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -39,7 +41,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private boolean soundEnabled;
     private boolean vibrateEnabled;
     private boolean flashEnabled;
-    private
+    private CameraManager cameraManager;
+    private String cameraID;
 
     //Tones
     final static int MORSE_BEEP_TONE = ToneGenerator.TONE_SUP_RADIO_ACK;
@@ -59,6 +62,13 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        cameraManager = (CameraManager) getSystemService(getApplicationContext().CAMERA_SERVICE);
+        try {
+            cameraID = cameraManager.getCameraIdList()[0];
+        } catch (Exception E) {
+            //TODO: Create Alert Dialog
+            Log.e(TAG, E.getMessage() + ": Unable to obtain CameraID, Flashing unavailable");
+        }
         setupSharedPreferences();
 
         mPlayPauseButton = findViewById(R.id.fab_playpause);
@@ -96,8 +106,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         });
         /*
-         * End of Autmated Translator Portion.
+         * End of Automated Translator Portion.
          */
+
     }
 
     @Override
@@ -137,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         Dah = sharedPreferences.getString(getString(R.string.pref_dah_representation_key), "-").charAt(0);
         soundEnabled = true;
         vibrateEnabled = true;
-        flashEnabled = true;
+        flashEnabled = cameraID != null;
     }
 
     @Override
@@ -152,19 +163,17 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     {
         private ToneGenerator toneGenerator;
         private Vibrator vibrator;
-        private Camera camera;
+        private boolean torchOn;
+
         @Override
         protected Boolean doInBackground(String... strings) {
             toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, MORSE_BEEP_VOLUME);
             vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            camera = Camera.open();
-            Camera.Parameters cameraParam = camera.getParameters();
-            cameraParam.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-            camera.setParameters(cameraParam);
+            torchOn = false;
             String morseCode = strings[0];
             for(int i = 0; i < morseCode.length(); i++)
             {
-                //Checks if the task was canceled
+                //Checks if the task was cancelled
                 if(isCancelled())
                     break;
 
@@ -206,13 +215,38 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
         private void soundVibrateFlash(int duration) {
             if(flashEnabled)
-                camera.startPreview();
+                changeTorchMode();
             if(vibrateEnabled)
                 vibrator.vibrate(duration);
             if(soundEnabled)
                 toneGenerator.startTone(MORSE_BEEP_TONE, duration);
             if(flashEnabled)
-                camera.stopPreview();
+                try {
+                    Thread.sleep(duration);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            changeTorchMode();
+        }
+
+        private void changeTorchMode() {
+            try {
+                if(!torchOn) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        cameraManager.setTorchMode(cameraID, true);
+                    }
+                    torchOn = true;
+                }
+                else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        cameraManager.setTorchMode(cameraID, false);
+                    }
+                    torchOn = false;
+
+                }
+            } catch (CameraAccessException CAE) {
+                Log.e(TAG, CAE.getMessage() + ": Unable to turn on torch.");
+            }
         }
 
         @Override
