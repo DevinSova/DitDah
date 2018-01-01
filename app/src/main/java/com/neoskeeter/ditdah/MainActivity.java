@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.hardware.Camera;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.AsyncTask;
@@ -151,10 +152,15 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     {
         private ToneGenerator toneGenerator;
         private Vibrator vibrator;
+        private Camera camera;
         @Override
         protected Boolean doInBackground(String... strings) {
             toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, MORSE_BEEP_VOLUME);
             vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            camera = Camera.open();
+            Camera.Parameters cameraParam = camera.getParameters();
+            cameraParam.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+            camera.setParameters(cameraParam);
             String morseCode = strings[0];
             for(int i = 0; i < morseCode.length(); i++)
             {
@@ -200,11 +206,13 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
         private void soundVibrateFlash(int duration) {
             if(flashEnabled)
-
+                camera.startPreview();
             if(vibrateEnabled)
                 vibrator.vibrate(duration);
             if(soundEnabled)
                 toneGenerator.startTone(MORSE_BEEP_TONE, duration);
+            if(flashEnabled)
+                camera.stopPreview();
         }
 
         @Override
