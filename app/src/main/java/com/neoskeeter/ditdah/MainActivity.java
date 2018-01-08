@@ -13,6 +13,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private FloatingActionButton mPlayPauseButton;
     private EditText mUserTranslatorInput;
     private TextView mTranslatedText;
+    private BottomNavigationView mBottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,20 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             Log.e(TAG, E.getMessage() + ": Unable to obtain CameraID, Flashing unavailable");
         }
         setupSharedPreferences();
+
+        mBottomNavigationView = findViewById(R.id.bottom_navigation);
+        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()) {
+                    case R.id.navigation_translator:
+                        break;
+                    case R.id.navigation_savedcodes:
+                        break;
+                }
+                return true;
+            }
+        });
 
         mPlayPauseButton = findViewById(R.id.fab_playpause);
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
