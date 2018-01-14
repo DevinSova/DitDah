@@ -7,6 +7,7 @@
 
     <!--Layout Background Color-->
     <color name="colorBackground">#e0e0e0</color>
+
     <!--Card View Color-->
     <color name="colorCardView">@color/cardview_light_background</color>
 
@@ -15,7 +16,7 @@
     <color name="colorPlayButtonPause">#f44336</color>
 
     <!--Bottom Nav Bar Colors-->
-    <color name="colorBottomNavBackground">#e0e0e0</color>
+    <color name="colorBottomNavBackground">#ffffff</color>
     <color name="colorBottomNavIcon">#f44336</color>
     <color name="colorBottomNavText">#f44336</color>
 
