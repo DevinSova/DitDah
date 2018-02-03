@@ -13,9 +13,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private FloatingActionButton mPlayPauseButton;
     private EditText mUserTranslatorInput;
     private TextView mTranslatedText;
-    private BottomNavigationView mBottomNavigationView;
+    private Menu mItemMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,20 +72,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             Log.e(TAG, E.getMessage() + ": Unable to obtain CameraID, Flashing unavailable");
         }
         setupSharedPreferences();
-
-        mBottomNavigationView = findViewById(R.id.bottom_navigation);
-        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()) {
-                    case R.id.navigation_translator:
-                        break;
-                    case R.id.navigation_savedcodes:
-                        break;
-                }
-                return true;
-            }
-        });
 
         mPlayPauseButton = findViewById(R.id.fab_playpause);
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +110,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         /*
          * End of Automated Translator Portion.
          */
-
     }
 
     @Override
@@ -141,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        mItemMenu = menu;
         return true;
     }
 
@@ -155,6 +140,36 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             Intent settingsActivityIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsActivityIntent);
             return true;
+        }
+        else if (id == R.id.action_flashlight) {
+            if(flashEnabled) {
+                mItemMenu.getItem(2).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_flashlight_off));
+                flashEnabled = false;
+            }
+            else {
+                mItemMenu.getItem(2).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_flashlight));
+                flashEnabled = true;
+            }
+        }
+        else if (id == R.id.action_sound) {
+            if(soundEnabled) {
+                mItemMenu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_sound_off));
+                soundEnabled = false;
+            }
+            else {
+                mItemMenu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_sound));
+                soundEnabled = true;
+            }
+        }
+        else if (id == R.id.action_vibrate) {
+            if(vibrateEnabled) {
+                mItemMenu.getItem(1).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_vibrate_off));
+                vibrateEnabled = false;
+            }
+            else {
+                mItemMenu.getItem(1).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_vibrate));
+                vibrateEnabled = true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -237,13 +252,13 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 vibrator.vibrate(duration);
             if(soundEnabled)
                 toneGenerator.startTone(MORSE_BEEP_TONE, duration);
+            try {
+                Thread.sleep(duration);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if(flashEnabled)
-                try {
-                    Thread.sleep(duration);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            changeTorchMode();
+                changeTorchMode();
         }
 
         private void changeTorchMode() {

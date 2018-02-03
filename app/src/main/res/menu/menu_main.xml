@@ -8,4 +8,26 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_flashlight"
+        android:icon="@drawable/ic_flashlight"
+        android:orderInCategory="99"
+        android:title="@string/action_flashlight"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_vibrate"
+        android:icon="@drawable/ic_vibrate"
+        android:orderInCategory="98"
+        android:title="@string/action_vibrate"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_sound"
+        android:icon="@drawable/ic_sound"
+        android:orderInCategory="97"
+        android:title="@string/action_sound"
+        app:showAsAction="always" />
+
 </menu>

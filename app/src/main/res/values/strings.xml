@@ -8,10 +8,9 @@
 
     <!-- Menu Navigation -->
     <string name="action_settings">Settings</string>
-
-    <!-- Bottom Navigation -->
-    <string name="nav_translator">Translator</string>
-    <string name="nav_savedcodes">Saved Codes</string>
+    <string name="action_flashlight">Flashlight</string>
+    <string name="action_vibrate">Vibrate</string>
+    <string name="action_sound">Sound</string>
 
     <!-- MainActivity Translator -->
     <string name="translator_hint">Translate...</string>

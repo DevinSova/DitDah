@@ -15,9 +15,4 @@
     <color name="colorPlayButtonPlay">#00e676</color>
     <color name="colorPlayButtonPause">#f44336</color>
 
-    <!--Bottom Nav Bar Colors-->
-    <color name="colorBottomNavBackground">#ffffff</color>
-    <color name="colorBottomNavIcon">#f44336</color>
-    <color name="colorBottomNavText">#f44336</color>
-
 </resources>

@@ -23,8 +23,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <include
-        layout="@layout/activity_translator"
-        android:layout_height="207dp" />
+        layout="@layout/activity_translator" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_playpause"
@@ -32,18 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginRight="@dimen/fab_margin"
-        android:layout_marginBottom="76dp"
+        android:layout_marginBottom="@dimen/fab_margin"
         android:tint="@android:color/white"
         app:srcCompat="@android:drawable/ic_media_play" />
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:itemBackground="@color/colorBottomNavBackground"
-        app:itemIconTint="@color/colorBottomNavIcon"
-        app:itemTextColor="@color/colorBottomNavText"
-        app:menu="@menu/navigation" />
 
 </android.support.design.widget.CoordinatorLayout>
