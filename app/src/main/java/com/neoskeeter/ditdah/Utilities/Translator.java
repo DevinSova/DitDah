@@ -44,10 +44,10 @@ public class Translator {
         }
         return "?";
     }
-    /*
+
     public static String morseToString(String m)
     {
-        return null;
+        String translation = "";
+        return translation;
     }
-     */
 }

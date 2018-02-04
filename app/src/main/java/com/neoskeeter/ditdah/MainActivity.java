@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.media.AudioManager;
@@ -14,12 +15,16 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.method.KeyListener;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     //Variables & Tasks
     boolean morseCodePlaying = false;
+    boolean flipped = false;
     MorseCodePlayerTask morseCodePlayerTask;
     private char Dit;
     private char Dah;
@@ -51,9 +57,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     final static int DIT_BEEP_DURATION = 50;
     final static int DAH_BEEP_DURATION = 200;
 
-
     //Widgets
     private FloatingActionButton mPlayPauseButton;
+    private FloatingActionButton mFlipButton;
     private EditText mUserTranslatorInput;
     private TextView mTranslatedText;
     private Menu mItemMenu;
@@ -62,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         cameraManager = (CameraManager) getSystemService(getApplicationContext().CAMERA_SERVICE);
         try {
@@ -84,6 +90,40 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         });
 
+        mFlipButton = findViewById(R.id.fab_flip);
+        mFlipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!flipped) {
+                    CharSequence charSequence = mUserTranslatorInput.getText();
+                    mUserTranslatorInput.setText(mTranslatedText.getText());
+                    mTranslatedText.setText(charSequence);
+
+                    mUserTranslatorInput.setTextColor(Color.BLACK);
+                    mTranslatedText.setTextColor(Color.BLACK);
+
+                    mUserTranslatorInput.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                    mTranslatedText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+
+                    flipped = true;
+                }
+                else {
+                    CharSequence charSequence = mTranslatedText.getText();
+                    mTranslatedText.setText(mUserTranslatorInput.getText());
+                    mUserTranslatorInput.setText(charSequence);
+
+                    mUserTranslatorInput.setTextColor(Color.BLACK);
+                    mTranslatedText.setTextColor(Color.BLACK);
+
+                    mUserTranslatorInput.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+                    mTranslatedText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+
+                    flipped = false;
+                }
+                Log.d(TAG, "flipped = " + flipped);
+            }
+        });
+
         /*
          * Automated Translator Portion.
          */
@@ -99,7 +139,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             //"before" is old length. "start" is where it started to change. "count" is how many characters after start.
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                mTranslatedText.setText(Translator.stringToMorse(charSequence.toString(), Dit, Dah));
+                if(!flipped)
+                    mTranslatedText.setText(Translator.stringToMorse(charSequence.toString(), Dit, Dah));
+                else
+                    mTranslatedText.setText(Translator.morseToString(charSequence.toString()));
             }
 
             @Override
@@ -140,6 +183,22 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             Intent settingsActivityIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsActivityIntent);
             return true;
+        }
+        else if (id == R.id.action_share) {
+            if(!(mTranslatedText.getText().toString().equals("") || mTranslatedText.getText().toString() == null)) {
+                String mimeType = "text/plain";
+                String title = "Share Morse Code Message with...";
+                ShareCompat.IntentBuilder
+                        .from(this)
+                        .setType(mimeType)
+                        .setChooserTitle(title)
+                        .setText(mTranslatedText.getText().toString())
+                        .startChooser();
+            }
+            else {
+                Toast emptyError = Toast.makeText(this, getString(R.string.err_empty_input), Toast.LENGTH_SHORT);
+                emptyError.show();
+            }
         }
         else if (id == R.id.action_flashlight) {
             if(flashEnabled) {

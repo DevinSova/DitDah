@@ -26,6 +26,15 @@
         layout="@layout/activity_translator" />
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_flip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_flip" />
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_playpause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
